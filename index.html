@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#112b46">
+<meta name="description" content="NYC Crashes: Beyond the Numbers — explore reported New York City traffic collisions, injuries, fatalities and crash patterns from 2013 to 2025.">
+<title>NYC Crashes: Beyond the Numbers | NYC Collision Observatory</title>
+<link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+<header class="hero">
+ <div class="shell hero-grid">
+  <div class="hero-left"><div class="hero-kicker"><span class="signal"></span> NYC COLLISION OBSERVATORY <span class="hero-year">/ 2013—2025</span></div><h1>NYC Crashes: Beyond the Numbers<span class="title-dot">.</span></h1><p class="tagline">Are Fewer Reported Crashes Making NYC Streets Safer?</p></div>
+  <div class="hero-right"><div class="hero-numbers">01 / THE BIG PICTURE</div><p>Explore reported NYC collisions from 2013 to 2025—tracking crash totals, human outcomes, locations, timing, vehicle involvement and recorded contributing factors.</p><div class="hero-actions"><button id="jumpGuide" class="hero-link">Explore the story <span>↗</span></button><button id="aboutTop" class="hero-link muted">Data &amp; methodology <span>↗</span></button></div></div>
+ </div>
+</header>
+<div class="filterbar">
+ <div class="shell filters">
+  <div class="range-section" aria-label="Year range selector">
+    <span class="filter-label">YEAR RANGE</span>
+    <label class="year-select-label">FROM <select aria-label="Starting year" id="yearFrom"></select></label>
+    <span class="range-separator">→</span>
+    <label class="year-select-label">TO <select aria-label="Ending year" id="yearTo"></select></label>
+  </div>
+  <div class="borough-filter"><label class="filter-label" for="borough">BOROUGH</label><select id="borough"><option value="ALL">All NYC</option><option value="BRONX">Bronx</option><option value="BROOKLYN">Brooklyn</option><option value="MANHATTAN">Manhattan</option><option value="QUEENS">Queens</option><option value="STATEN ISLAND">Staten Island</option><option value="UNKNOWN">Unknown / Not Recorded</option></select></div>
+  <button class="reset" id="reset" title="Restore original filters"><span aria-hidden="true">↻</span> Reset filters</button>
+  <div class="context" id="filterContext">All NYC &nbsp; | &nbsp; 2013–2025</div>
+ </div>
+</div>
+<main class="shell">
+ <section class="kpi-grid" aria-label="Key metrics">
+  <article class="kpi-card"><div class="kpi-icon blue"><svg viewBox="0 0 24 24"><path d="m5 11 2-6h10l2 6M5 11h14l1 7h-3v-2H7v2H4l1-7Zm3 1h1m6 0h1"/></svg></div><div class="kpi-body"><strong id="kpiCrashes">—</strong><span>Reported crashes</span><small id="kpiPeriod1">2013–2025 · crash events</small></div></article>
+  <article class="kpi-card"><div class="kpi-icon sky"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M3 19v-2c0-3 3-5 6-5s6 2 6 5v2H3Zm13 0v-2c0-1.7-.5-3-1.3-4 3 .1 5.3 1.8 5.3 4v2h-4Z"/></svg></div><div class="kpi-body"><strong id="kpiInjured">—</strong><span>People injured</span><small id="kpiPeriod2">2013–2025 · people</small></div></article>
+  <article class="kpi-card"><div class="kpi-icon coral"><svg viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3Z"/><path d="M12 9v5m0 3v.1"/></svg></div><div class="kpi-body"><strong id="kpiKilled">—</strong><span>People killed</span><small id="kpiPeriod3">2013–2025 · people</small></div></article>
+  <article class="kpi-card"><div class="kpi-icon amber"><svg viewBox="0 0 24 24"><circle cx="7" cy="7" r="3"/><circle cx="17" cy="17" r="3"/><path d="M19 5 5 19"/></svg></div><div class="kpi-body"><strong id="kpiPct">—</strong><span>Crashes involving injury (%)</span><small id="kpiPeriod4">Share of reports with known injury status</small></div></article>
+ </section>
+ <section class="story-section" id="storyBar"><div class="story-prefix">FOLLOW THE EVIDENCE</div><div class="story-content"><div class="story-num" id="storyIndex">01</div><div><strong id="storyTitle">A guided seven-step exploration</strong><p id="storyText">Explore the charts freely or follow the narrative across the seven views.</p></div></div><div class="story-controls"><button class="story-outline" id="storyBack" hidden>← Back</button><span id="storyProgress" class="story-progress"></span><button class="story-primary" id="storyNext">Explore the story ↗</button><button class="story-outline" id="storyExit" hidden>Exit</button></div></section>
+ <section class="dashboard-grid" aria-label="Interactive crash analysis">
+  <article class="panel panel-trend" id="panelTrend">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">1</span><div><h2>How Have Crashes, Injuries, and Fatalities Changed?</h2><p id="trendDescription">Compare trends with a 2019 baseline or switch to actual recorded totals.</p></div></div><div class="panel-actions"><div class="seg" id="trendSeg"><button class="active" data-trend="indexed">Indexed · 2019 = 100</button><button data-trend="actual">Actual values</button></div><select id="actualMetric" class="mini-select" hidden><option value="0">Crashes</option><option value="1">People injured</option><option value="2">People killed</option></select></div></div>
+   <div id="trendPlot" class="trendplot" aria-label="Interactive annual trends with hover tooltips"></div>
+  </article>
+  <article class="panel panel-human" id="panelHuman">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">2</span><div><h2>Who Is Affected by Traffic Collisions?</h2><p>Compare recorded injuries and fatalities among motorists, pedestrians and cyclists. Click a segment for annual trends.</p></div></div></div>
+   <div class="human-composition" id="roadGrid" aria-label="One hundred percent stacked injury and fatality composition"></div><div class="human-category-legend" id="roadLegend"></div><p class="panel-foot"><span class="info-icon">i</span> Each bar totals 100% across three classified road-user groups. Shares describe recorded people, not personal risk. Hover for exact counts; click a segment to explore annual trends.</p>
+  </article>
+  <article class="panel panel-map" id="panelMap">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">3</span><div><h2>Where Do Reported Crashes Concentrate?</h2><p id="mapSubtitle">Explore the geographic distribution of recorded collisions over time.</p></div></div><div class="panel-actions"><div class="seg" id="mapSeg"><button class="active" data-mapmetric="all">All crashes</button><button data-mapmetric="injury">Injury-involved</button><button data-mapmetric="fatal">Fatal crashes</button></div></div></div>
+   <div class="map-stack">
+    <div class="map-visual" id="mapVisual"><div class="map-tiles" id="mapTiles" aria-hidden="true"></div><svg id="mapShapes" class="map-shapes" aria-hidden="true"></svg><canvas id="mapCanvas" class="map-canvas" aria-label="Geographic density layer of selected crash type"></canvas><div class="map-attribution">Geocoded NYC crash locations · approximate borough outlines</div><div class="vertical-legend" id="densityLegend" aria-label="Map density legend: lighter colors indicate fewer reported crashes per cell and darker colors indicate more"><strong>REPORTS<br>PER CELL</strong><span id="densityMax">Higher</span><div class="vertical-ramp" id="densityRamp"></div><span>Lower</span></div></div>
+    <div class="map-bottom">
+      <div class="frame-card"><div class="timeline-heading"><strong id="mapFrameType">Yearly · 1 of 13</strong><span id="mapYearLabel">Yearly animation</span></div><div class="map-controls"><button id="mapPlay" class="play" aria-label="Play animation">▶</button><button id="mapPrev" class="step" aria-label="Previous frame">‹</button><div class="map-frame-text" id="mapFrame">2013</div><input id="mapSlider" type="range" class="timeline" min="0" max="12" value="0" aria-label="Timeline position"><button id="mapNext" class="step" aria-label="Next frame">›</button></div></div>
+      <div class="map-data"><div><span id="mapCountLabel">Mapped crashes / frame</span><strong id="mapCount">—</strong></div><div><span>Coordinate coverage / selection</span><strong id="mapCoverage">—</strong></div></div>
+    </div>
+   </div>
+  </article>
+  <article class="panel panel-borough" id="panelBorough">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">4</span><div><h2>How Are Crashes Distributed Across Boroughs?</h2><p>Compare crash shares across five boroughs; click a slice to explore that borough.</p></div></div><div class="panel-actions chart-option"><div class="seg" id="boroughSeg"><button data-borough-mode="count" class="active">All crashes</button><button data-borough-mode="pct">Injury-involved</button></div></div></div>
+   <div class="borough-plot" id="boroRows"></div><div class="missing-strip" id="boroughMissing"></div><p class="panel-foot"><span class="info-icon">i</span> The donut includes only crashes assigned to a named borough. Unknown boroughs are reported separately but remain in citywide totals. Shares are not crash rates or individual risk.</p>
+  </article>
+  <article class="panel panel-heat" id="panelHeat">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">5</span><div><h2>When Do Reported Crashes Occur?</h2><p>Explore how crash frequency and injury involvement vary by weekday and hour.</p></div></div><div class="panel-actions"><div class="seg" id="heatSeg"><button data-heat="count" class="active">Crash count</button><button data-heat="pct" title="Percentage of crash reports involving at least one injury, among reports with known injury status">Injury-involved %</button></div></div></div>
+   <div class="heat-body"><div class="bubble-scroll"><div id="heatPlot" class="bubble-matrix" role="group" aria-label="Day of week by hour bubble matrix"></div></div><div id="bubbleLegend" class="bubble-legend"></div></div><p class="panel-foot"><span class="info-icon">i</span> Bubble area and seven color levels encode the selected metric. Injury-involved percentages use reports with known injury status; missing values are not zero. Colors rescale to the selected data, and counts do not measure per-trip risk.</p>
+  </article>
+  <article class="panel panel-pairs" id="panelPairs">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">6</span><div><h2>Which Vehicle Types Appear Together in Crashes?</h2><p>Explore first-two-vehicle combinations; less common categories are grouped as “Other types.”</p></div></div><div class="panel-actions chart-option"><div class="seg" id="pairSeg"><button data-pair="count" class="active">Crash count</button><button data-pair="pct" title="Percentage of crash reports involving an injury">Injury %</button></div><label class="tiny-check"><input type="checkbox" id="pairIncludeUnknown"><span>Include unknown</span></label></div></div>
+   <div class="pair-matrix-scroll"><div class="pair-heatmap" id="pairBars" role="group" aria-label="Vehicle category combination heatmap"></div></div><div class="pair-gradient" id="pairLegend"></div><p class="panel-foot" id="pairCoverage">Valid pair coverage will appear here.</p>
+  </article>
+  <article class="panel panel-factors" id="panelFactors">
+   <div class="panel-top"><div class="panel-title-group"><span class="number">7</span><div><h2>Which Contributing Factors Are Most Often Recorded?</h2><p>Explore commonly recorded factors and injury involvement; unspecified reports remain visible.</p></div></div><div class="panel-actions chart-option"><div class="seg" id="factorSeg"><button data-factor="count" class="active">Crash count</button><button data-factor="pct" title="Percentage of crash reports involving an injury">Injury %</button></div><label class="factor-limit-label">SHOW <select id="factorLimit" aria-label="Number of leading factors shown"><option value="6" selected>Top 6</option><option value="10">Top 10</option></select></label></div></div>
+   <div id="factorRows" class="factor-body"></div><div class="missing-strip" id="factorMissing"></div><p class="panel-foot"><span class="info-icon">i</span> Hover or click for recorded counts, report shares and injury involvement. Crashes can have multiple recorded factors, so shares need not add to 100%. “Both Unspecified” is reported separately, not treated as a cause.</p>
+  </article>
+ </section>
+ <section class="findings"><div class="section-line"><div><span>KEY FINDINGS</span><h2>What Does the Selected Data Reveal?</h2></div><p>Insights update automatically with the selected year range and borough.</p></div><div id="insights" class="insights"></div></section>
+ <details id="methodology" class="method"><summary>Data source, methodology &amp; limitations <span>+</span></summary><div class="method-content"><div><h3>Data source and coverage</h3><p>New York City Open Data — <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95" target="_blank" rel="noopener">Motor Vehicle Collisions — Crashes</a>. The dashboard covers all recorded collisions in 2013–2025; one crash report is one event. Filters affect all seven visualizations.</p><h3>Changes in reporting practices</h3><p>NYPD altered non-injury collision reporting in April 2020, while the pandemic changed travel patterns. Total reported crashes before and after 2020 are not fully comparable. The data do not provide trips, driving distance or population denominators.</p><h3>Definitions and indexed comparisons</h3><p>Indexed trend = annual metric / same region's 2019 metric × 100. Each actual-value view uses only one outcome scale. Injury-involved percentage divides crash reports with at least one injured person by reports with known injury status. Missing injury status is not assumed to be zero.</p></div><div><h3>Geographic analysis</h3><p>The map can switch between all reports, reports with at least one injured person, and reports with at least one killed person. Those categories can overlap. The density map shows records with usable geographic coordinates only. All other charts retain records with missing coordinates. The map uses a locally rendered, single-hue sequential color scale for each selected outcome, with a fixed geographical extent and color scale across animation frames. Each dot represents a regular spatial bin, not an individual crash. Colour intensity is log-scaled by count per bin. The approximate borough outlines are derived from geocoded records and are not official administrative boundaries. No map tile service or API key is required.</p><h3>Day and hour</h3><p>Crash reports are grouped into 168 weekday–hour combinations. Bubble area represents the selected value, while the seven-step color legend emphasizes differences within the current filter selection. For the percentage view, the denominator includes only reports with known injury status. Color ranges can change when filters change; neither crash totals nor injury-involved percentages are adjusted for traffic exposure.</p><h3>Vehicle combinations</h3><p>The heatmap uses the first and second recorded vehicle types as unordered pairs. Car, SUV / Van, Taxi / Rideshare, Truck, Motorcycle / Moped, Bicycle and Bus appear individually; Emergency, Commercial / Other and Other are consolidated into “Other types” for display (not discarded). Each crash contributes at most one pair. Only the upper triangle is shown, so mirrored combinations are not counted twice. Missing/unclassified types can be included as Unknown. Third and later vehicles are not represented.</p><h3>Missing values and contributing factors</h3><p>Unknown boroughs are not a sixth borough. They are excluded from the five-slice donut, displayed separately with the relevant citywide percentage, and remain in citywide totals. The donut can switch between shares of crash reports and shares of injury-involved crash reports; these are additive counts, NOT borough injury rates or exposure-adjusted risk.</p><p>A known factor is counted once per crash, even if it appears in both first and second factor fields. The separate gray “Both Unspecified” data-quality item counts only reports where both fields explicitly say Unspecified. This preview's browser aggregates were rebuilt from the original NYC source export; the selected MN Parquet is included in the editable package for regenerating matching group classifications with the build script and a Parquet reader.</p></div></div></details>
+ <footer><span>NYC CRASHES: BEYOND THE NUMBERS</span><span>NYC Open Data · 2013–2025</span></footer>
+</main>
+<div class="floating-chart-tip" id="floatingChartTip" role="tooltip" hidden></div>
+<div class="road-modal-backdrop" id="roadModal" hidden>
+  <section class="road-modal" role="dialog" aria-modal="true" aria-labelledby="roadModalTitle" aria-describedby="roadModalDesc" tabindex="-1">
+    <header class="road-modal-header">
+      <div><span class="road-modal-eyebrow">ROAD USER ANALYSIS / ANNUAL TRENDS</span><h2 id="roadModalTitle">Road-user trends</h2></div>
+      <button type="button" class="road-modal-close" id="roadModalClose" aria-label="Close detailed graph">✕</button>
+    </header>
+    <p id="roadModalDesc" class="road-modal-desc">Separate, independently labeled axes for injured people and killed people.</p>
+    <div class="road-modal-summary" id="roadModalSummary"></div>
+    <div id="roadModalPlot" class="road-modal-chart" aria-label="Annual injuries and fatalities for the selected road user"></div>
+    <p class="road-modal-foot">These are recorded people, not crash rates or exposure-adjusted risks. Hover points to inspect each year's values.</p>
+  </section>
+</div>
+<script src="assets/js/plotly.bundle.js" defer></script><script src="assets/js/dashboard-data.js" defer></script><script src="assets/js/dashboard.js" defer></script>
+</body>
+</html>
